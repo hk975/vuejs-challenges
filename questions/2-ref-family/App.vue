@@ -1,11 +1,21 @@
+<!--
+ * @Author: hukai05
+ * @Date: 2024-10-27 11:24:17
+ * @LastEditors: hk975 huwsmlm@163.com
+ * @LastEditTime: 2024-10-27 12:32:14
+ * @FilePath: \vuejs-challenges\questions\2-ref-family\App.vue
+ * @Description: 
+ * 
+-->
 <script setup lang="ts">
-import { ref, Ref, reactive } from "vue"
+import { ref, Ref, reactive, isRef, toRef } from "vue"
 
 const initial = ref(10)
 const count = ref(0)
 
 // Challenge 1: Update ref
 function update(value) {
+  count.value = value
   // impl...
 }
 
@@ -14,6 +24,7 @@ function update(value) {
  * Make the output be 1
 */
 console.log(
+  isRef(count) ? 1 : 0,
   // impl ? 1 : 0
 )
 
@@ -23,6 +34,7 @@ console.log(
 */
 function initialCount(value: number | Ref<number>) {
   // Make the output be true
+  if (isRef(value)) value = value.value
   console.log(value === 10)
 }
 
@@ -39,7 +51,7 @@ const state = reactive({
   foo: 1,
   bar: 2,
 })
-const fooRef = ref() // change the impl...
+const fooRef = toRef(state, 'foo') // change the impl...
 
 // mutating the ref updates the original
 fooRef.value++
@@ -54,9 +66,9 @@ console.log(fooRef.value === 3)
 <template>
   <div>
     <p>
-      <span @click="update(count-1)">-</span>
+      <span @click="update(count - 1)">-</span>
       {{ count }}
-      <span @click="update(count+1)">+</span>
+      <span @click="update(count + 1)">+</span>
     </p>
   </div>
 </template>
