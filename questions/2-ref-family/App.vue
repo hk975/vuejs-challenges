@@ -2,13 +2,13 @@
  * @Author: hukai05
  * @Date: 2024-10-27 11:24:17
  * @LastEditors: hk975 huwsmlm@163.com
- * @LastEditTime: 2024-10-27 12:32:14
+ * @LastEditTime: 2024-10-27 14:13:00
  * @FilePath: \vuejs-challenges\questions\2-ref-family\App.vue
  * @Description: 
  * 
 -->
 <script setup lang="ts">
-import { ref, Ref, reactive, isRef, toRef } from "vue"
+import { ref, Ref, reactive, isRef, toRef, unref } from "vue"
 
 const initial = ref(10)
 const count = ref(0)
@@ -34,8 +34,7 @@ console.log(
 */
 function initialCount(value: number | Ref<number>) {
   // Make the output be true
-  if (isRef(value)) value = value.value
-  console.log(value === 10)
+  console.log(unref(value) === 10)
 }
 
 initialCount(initial)
